@@ -7,6 +7,7 @@
 - A documentação fica disponivel na [url](http://localhost:8080/api/documentation);
 - usuario padrão de testes: "test@example.com" e senha 'password';
 - Quando o docker inicia a primeira vez, ele espera o container do banco, e roda pela primeira vez os seeds e migrations;
+- O container de banco inicia com uma senha definida dentro do arquivo docker-compose;
 
 ## Stack
 
@@ -33,5 +34,4 @@
 - Adição de notificação de criação/edição e exclusão de agendamentos via eventos no dominio (email, sms) via fila;
 - Registro de alterações de agenda;
 - Alterar o método de token para sempre retornar o token ativo;
-- Relacionamento entre eventos e outros usuarios;
-- update deve desconsiderar o proprio evento sendo atualizado.
+- Relacionamento entre agendamentos e outros usuarios.
