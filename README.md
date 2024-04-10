@@ -22,9 +22,10 @@
 
 ## Para rodar os testes
 
-1. docker-compose exec php php artisan test
+1. docker-compose exec php php artisan config:clear
+2. docker-compose exec php php artisan test --env=testing
 
-## gerar documentação
+## Gerar documentação
 
 1. composer generate-doc
 

@@ -14,15 +14,17 @@ services:
             - ./composer.json:/app/composer.json
             - ./composer.lock:/app/composer.lock
             - ./bootstrap:/app/bootstrap
+            - ./phpunit.xml:/app/phpunit.xml
+            - ./.env.testing:/app/.env.testing
         ports:
             - "8080:8080"
         depends_on:
             - database
         networks:
             - app
-        env_file: .env
         environment:
             - service=app
+            - DB_HOST=database
     database:
         image: mysql:8
         restart: unless-stopped
