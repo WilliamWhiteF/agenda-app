@@ -16,33 +16,35 @@ class TokensController extends Controller
      *      summary="Gera um Bearer Token",
      *      description="Retorna um bearer token valido para acesso",
      *      path="/api/tokens/create",
-     *      @OA\RequestBody(
+     * @OA\RequestBody(
      *          required=true,
      *          description="informação de autenticação",
-     *          @OA\JsonContent(
+     * @OA\JsonContent(
      *              type="object",
      *              ref="#/components/schemas/generate_token"
      *          ),
      *      ),
-     *      @OA\Response(response="401", description="Credenciais invalidas"),
-     *      @OA\Response(response="500", description="Erro desconhecido"),
-     *      @OA\Response(
+     * @OA\Response(response="401",                 description="Credenciais invalidas"),
+     * @OA\Response(response="500",                 description="Erro desconhecido"),
+     * @OA\Response(
      *          response="200",
      *          description="Criação de token",
-     *          @OA\JsonContent(
+     * @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(property="token",type="string")
+     * @OA\Property(property="token",type="string")
      *          )
      *      )
      * )
      */
     public function __invoke(Request $request, GenerateTokenService $generateToken)
     {
-        $request->validate([
+        $request->validate(
+            [
             'email' => 'required|email',
             'password' => 'required',
             'token_name' => 'required',
-        ]);
+            ]
+        );
 
         try {
             $dto = GenerateTokenDto::fromRequest($request);

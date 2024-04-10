@@ -16,7 +16,8 @@ class UpdateAppointmentDto implements DtoInterface
         public readonly ?string $title = null,
         public readonly ?string $type = null,
         public readonly ?string $description = null,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

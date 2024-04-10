@@ -15,7 +15,8 @@ class CheckDateService implements ServicesInterface
 {
     public function __construct(
         private readonly UserRepository $repository
-    ) {}
+    ) {
+    }
 
     public function execute(AppointmentDto|UpdateAppointmentDto $dto)
     {

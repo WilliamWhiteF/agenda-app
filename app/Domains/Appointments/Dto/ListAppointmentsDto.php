@@ -12,7 +12,8 @@ class ListAppointmentsDto implements DtoInterface
     public function __construct(
         public readonly ?Carbon $startDate,
         public readonly ?Carbon $endDate
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

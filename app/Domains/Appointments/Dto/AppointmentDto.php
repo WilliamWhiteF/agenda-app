@@ -16,7 +16,8 @@ class AppointmentDto implements DtoInterface
         public readonly string $title,
         public readonly string $type,
         public readonly string $description,
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

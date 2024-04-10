@@ -26,31 +26,33 @@ class AppointmentController extends Controller
      *      description="Retorna uma lista de agendamentos que podem ser filtrados por data",
      *      path="/api/appointment",
      *      security={{ "bearerAuth": {} }},
-     *      @OA\Parameter(
+     * @OA\Parameter(
      *          name="start_date",
      *          in="query",
      *          description="data de inicio",
      *          required=false
      *      ),
-     *      @OA\Parameter(
+     * @OA\Parameter(
      *          name="end_date",
      *          in="query",
      *          description="data final",
      *          required=false
      *      ),
-     *      @OA\Response(
+     * @OA\Response(
      *          response="200",
      *          description="Uma lista de agendamentos seguindo o formato",
-     *          @OA\JsonContent(ref="#/components/schemas/appointment")
+     * @OA\JsonContent(ref="#/components/schemas/appointment")
      *      )
      * ),
      */
     public function index(Request $request, ListAppointmentsService $service)
     {
-        $request->validate([
+        $request->validate(
+            [
             'start_date' => 'date_format:Y-m-d H:i:s',
             'end_date' => 'date_format:Y-m-d H:i:s',
-        ]);
+            ]
+        );
 
         $dto = ListAppointmentsDto::fromRequest($request);
         return $service->execute($dto);
@@ -63,12 +65,12 @@ class AppointmentController extends Controller
      *      security={{ "bearerAuth": {} }},
      *      description="Cria um agendamento, caso não tenha um marcado na data e não seja no fim de semana",
      *      path="/api/appointment",
-     *      @OA\RequestBody(
+     * @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/appointment")
+     * @OA\JsonContent(ref="#/components/schemas/appointment")
      *      ),
-     *      @OA\Response(response="400", description="Erro de fim semana ou conflito de agenda"),
-     *      @OA\Response(response="201", description="Criação de agendamento")
+     * @OA\Response(response="400",                            description="Erro de fim semana ou conflito de agenda"),
+     * @OA\Response(response="201",                            description="Criação de agendamento")
      * ),
      */
     public function store(StoreAppointmentRequest $request, StoreAppointmentService $service)
@@ -94,20 +96,20 @@ class AppointmentController extends Controller
      *      description="Retorna um apontamento",
      *      path="/api/appointment/{appointmentId}",
      *      security={{ "bearerAuth": {} }},
-     *      @OA\Parameter(
+     * @OA\Parameter(
      *          name="appointmentId",
      *          in="path",
      *          description="ID do agendamento a ser atualizado",
      *          required=true
      *      ),
-     *      @OA\Response(
+     * @OA\Response(
      *          response="404",
      *          description="Agendamento não encontrado"
      *      ),
-     *      @OA\Response(
+     * @OA\Response(
      *          response="200",
      *          description="Agendamento",
-     *          @OA\JsonContent(ref="#/components/schemas/appointment"),
+     * @OA\JsonContent(ref="#/components/schemas/appointment"),
      *      ),
      * ),
      */
@@ -123,23 +125,23 @@ class AppointmentController extends Controller
      *      security={{ "bearerAuth": {} }},
      *      description="Atualiza um agendamento, caso não tenha um marcado na data e não seja no fim de semana",
      *      path="/api/appointment/{appointmentId}",
-     *      @OA\Parameter(
+     * @OA\Parameter(
      *          name="appointmentId",
      *          in="path",
      *          description="ID do agendamento a ser atualizado",
      *          required=true
      *      ),
-     *      @OA\RequestBody(
+     * @OA\RequestBody(
      *          required=true,
-     *          @OA\JsonContent(ref="#/components/schemas/appointment")
+     * @OA\JsonContent(ref="#/components/schemas/appointment")
      *      ),
-     *      @OA\Response(
+     * @OA\Response(
      *          response="404",
      *          description="Agendamento não encontrado"
      *      ),
-     *      @OA\Response(response="400", description="Erro de fim semana ou conflito de agenda"),
-     *      @OA\Response(response="401", description="Usuário não é dono do agendamento"),
-     *      @OA\Response(response="204", description="Agendamento atualizado")
+     * @OA\Response(response="400",                            description="Erro de fim semana ou conflito de agenda"),
+     * @OA\Response(response="401",                            description="Usuário não é dono do agendamento"),
+     * @OA\Response(response="204",                            description="Agendamento atualizado")
      * ),
      */
     public function update(
@@ -171,17 +173,17 @@ class AppointmentController extends Controller
      *      description="Exclui um apontamento",
      *      path="/api/appointment/{appointmentId}",
      *      security={{ "bearerAuth": {} }},
-     *      @OA\Parameter(
+     * @OA\Parameter(
      *          name="appointmentId",
      *          in="path",
      *          description="ID do agendamento a ser excluido",
      *          required=true
      *      ),
-     *      @OA\Response(
+     * @OA\Response(
      *          response="404",
      *          description="Agendamento não encontrado"
      *      ),
-     *      @OA\Response(response="204", description="Agendamento excluido")
+     * @OA\Response(response="204", description="Agendamento excluido")
      * ),
      */
     public function destroy(Appointment $appointment)

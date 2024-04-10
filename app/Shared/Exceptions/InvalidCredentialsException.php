@@ -2,4 +2,7 @@
 
 namespace App\Shared\Exceptions;
 
-class InvalidCredentialsException extends \Exception { }
+class InvalidCredentialsException extends \Exception
+{
+ 
+}

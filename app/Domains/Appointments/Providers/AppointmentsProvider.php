@@ -14,9 +14,11 @@ class AppointmentsProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(UserRepository::class, function (Application $app) {
-            return new UserRepository(Auth::user());
-        });
+        $this->app->singleton(
+            UserRepository::class, function (Application $app) {
+                return new UserRepository(Auth::user());
+            }
+        );
     }
 
     /**

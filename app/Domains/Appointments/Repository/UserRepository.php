@@ -16,12 +16,14 @@ class UserRepository implements UserRepositoryInterface
 {
     public function __construct(
         private readonly User $user
-    ) {}
+    ) {
+    }
 
     /**
      * Realiza a paginação dos apontamentos do usuario
-     * @param Carbon $startDate
-     * @param Carbon $endDate
+     *
+     * @param  Carbon $startDate
+     * @param  Carbon $endDate
      * @return Paginator resultados paginados
      */
     public function paginateAppointmentsByDate(?Carbon $startDate, ?Carbon $endDate): Paginator
@@ -40,8 +42,9 @@ class UserRepository implements UserRepositoryInterface
 
     /**
      * Valida os agendamentos marcados atualmente para entender se a agenda está disponivel
-     * @param Carbon $startDate
-     * @param Carbon $endDate
+     *
+     * @param  Carbon $startDate
+     * @param  Carbon $endDate
      * @return bool true se tiver conflitos
      */
     public function hasConflictingAgenda(Carbon $startDate, Carbon $endDate): bool

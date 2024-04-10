@@ -9,15 +9,15 @@ use Illuminate\Http\Request;
  * @OA\Schema(
  *     type="object",
  *     schema="generate_token",
- *     @OA\Property(
+ * @OA\Property(
  *         property="email",
  *         type="string",
  *     ),
- *     @OA\Property(
+ * @OA\Property(
  *         property="password",
  *         type="string"
  *     ),
- *     @OA\Property(
+ * @OA\Property(
  *         property="token_name",
  *         type="string"
  *     ),
@@ -29,7 +29,8 @@ class GenerateTokenDto implements DtoInterface
         public readonly string $email,
         public readonly string $password,
         public readonly string $tokenName
-    ) {}
+    ) {
+    }
 
     public function toArray(): array
     {

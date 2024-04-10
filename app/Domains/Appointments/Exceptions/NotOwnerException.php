@@ -2,4 +2,7 @@
 
 namespace App\Domains\Appointments\Exceptions;
 
-class NotOwnerException extends \Exception { }
+class NotOwnerException extends \Exception
+{
+ 
+}

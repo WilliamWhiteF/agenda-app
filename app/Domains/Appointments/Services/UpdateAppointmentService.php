@@ -16,7 +16,8 @@ class UpdateAppointmentService implements ServicesInterface
     public function __construct(
         private readonly UserRepository $repository,
         private readonly CheckDateService $checkDateService,
-    ) {}
+    ) {
+    }
 
     public function execute(Appointment $appointment, UpdateAppointmentDto $dto)
     {
