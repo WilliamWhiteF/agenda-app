@@ -1,0 +1,311 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Agenda",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/appointment": {
+            "get": {
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "Retorna uma lista de agendamentos",
+                "description": "Retorna uma lista de agendamentos que podem ser filtrados por data",
+                "operationId": "7ce707742309345abe6d8b4758c6bba6",
+                "parameters": [
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "data de inicio",
+                        "required": false
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "data final",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Uma lista de agendamentos seguindo o formato",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/appointment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "Cria um agendamento",
+                "description": "Cria um agendamento, caso não tenha um marcado na data e não seja no fim de semana",
+                "operationId": "921c57c08f6528291820db2188840440",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/appointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "400": {
+                        "description": "Erro de fim semana ou conflito de agenda"
+                    },
+                    "201": {
+                        "description": "Criação de agendamento"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/appointment/{appointmentId}": {
+            "get": {
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "Retorna um agendamento",
+                "description": "Retorna um apontamento",
+                "operationId": "bcd0f18237381c5cd4296f0ffc4be413",
+                "parameters": [
+                    {
+                        "name": "appointmentId",
+                        "in": "path",
+                        "description": "ID do agendamento a ser atualizado",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Agendamento não encontrado"
+                    },
+                    "200": {
+                        "description": "Agendamento",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/appointment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "Atualiza um agendamento",
+                "description": "Atualiza um agendamento, caso não tenha um marcado na data e não seja no fim de semana",
+                "operationId": "f986612b73b5df3795fdc30f3e3216bf",
+                "parameters": [
+                    {
+                        "name": "appointmentId",
+                        "in": "path",
+                        "description": "ID do agendamento a ser atualizado",
+                        "required": true
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/appointment"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "404": {
+                        "description": "Agendamento não encontrado"
+                    },
+                    "400": {
+                        "description": "Erro de fim semana ou conflito de agenda"
+                    },
+                    "401": {
+                        "description": "Usuário não é dono do agendamento"
+                    },
+                    "201": {
+                        "description": "Agendamento atualizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "appointment"
+                ],
+                "summary": "Exclui um agendamento",
+                "description": "Exclui um apontamento",
+                "operationId": "e58a8d96f8c7f4a2538266726b1bfbb1",
+                "parameters": [
+                    {
+                        "name": "appointmentId",
+                        "in": "path",
+                        "description": "ID do agendamento a ser excluido",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "404": {
+                        "description": "Agendamento não encontrado"
+                    },
+                    "204": {
+                        "description": "Agendamento excluido"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/tokens/create": {
+            "post": {
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Gera um Bearer Token",
+                "description": "Retorna um bearer token valido para acesso",
+                "operationId": "a17445a9f6e7c22fe140cafd2ab60795",
+                "requestBody": {
+                    "description": "informação de autenticação",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/generate_token"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "401": {
+                        "description": "Credenciais invalidas"
+                    },
+                    "500": {
+                        "description": "Erro desconhecido"
+                    },
+                    "200": {
+                        "description": "Criação de token",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "start_date": {
+                "description": "formato YYYY-mm-dd H:i:s",
+                "type": "string",
+                "example": "2024-04-09 00:00:00"
+            },
+            "end_date": {
+                "description": "formato YYYY-mm-dd H:i:s",
+                "type": "string",
+                "example": "2024-04-09 00:00:00"
+            },
+            "appointment": {
+                "description": "Um agendamento padrão",
+                "properties": {
+                    "start_date": {
+                        "$ref": "#/components/schemas/start_date"
+                    },
+                    "end_date": {
+                        "$ref": "#/components/schemas/end_date"
+                    },
+                    "deadline_date": {
+                        "type": "string",
+                        "example": "2024-04-09 00:00:00"
+                    },
+                    "status": {
+                        "type": "boolean"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "generate_token": {
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "token_name": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "auth",
+            "description": "endpoints para autenticação"
+        },
+        {
+            "name": "appointment",
+            "description": "endpoint para agendamentos"
+        }
+    ]
+}

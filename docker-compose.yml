@@ -13,32 +13,17 @@ services:
             - ./.env:/app/.env
             - ./composer.json:/app/composer.json
             - ./composer.lock:/app/composer.lock
+            - ./bootstrap:/app/bootstrap
         ports:
             - "8080:8080"
         depends_on:
             - database
-            - queue
+            # - queue
         networks:
             - app
         env_file: .env
         environment:
             - service=app
-    worker:
-        build: .
-        command: ["php", "artisan", "queue:work"]
-        volumes:
-            - .:/app
-        ports:
-            - "8000:8000"
-        depends_on:
-            - database
-            - queue
-            - php
-        networks:
-            - app
-        env_file: .env
-        environment:
-            - service=worker
     database:
         image: mysql:8
         restart: unless-stopped
@@ -52,13 +37,6 @@ services:
             - MYSQL_DATABASE=agenda
             - MYSQL_ROOT_PASSWORD=lTkNLD8Vo89
         command: --default-authentication-plugin=mysql_native_password
-    queue:
-        image: rabbitmq:3-management
-        ports:
-            - "5672:5672"
-            - "15672:15672"
-        networks:
-            - app
 
 networks:
   app:
