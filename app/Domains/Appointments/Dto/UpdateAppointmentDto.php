@@ -12,10 +12,10 @@ class UpdateAppointmentDto implements DtoInterface
         public readonly ?Carbon $startDate,
         public readonly ?Carbon $endDate,
         public readonly ?Carbon $deadlineDate,
-        public readonly ?bool $status,
-        public readonly ?string $title,
-        public readonly ?string $type,
-        public readonly ?string $description,
+        public readonly ?bool $status = null,
+        public readonly ?string $title = null,
+        public readonly ?string $type = null,
+        public readonly ?string $description = null,
     ) {}
 
     public function toArray(): array

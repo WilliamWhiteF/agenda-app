@@ -12,6 +12,6 @@ interface UserRepositoryInterface extends RepositoryInterface
 {
     public function paginateAppointmentsByDate(?Carbon $startDate, ?Carbon $endDate): Paginator;
     public function hasConflictingAgenda(Carbon $startDate, Carbon $endDate): bool;
-    public function addAppointment(AppointmentDto $dto): void;
+    public function addAppointment(AppointmentDto $dto): Appointment;
     public function isOwner(Appointment $appointment): bool;
 }

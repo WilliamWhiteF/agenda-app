@@ -75,9 +75,9 @@ class AppointmentController extends Controller
     {
         try {
             $dto = AppointmentDto::fromRequest($request);
-            $service->execute($dto);
+            $appointment = $service->execute($dto);
 
-            return response('', 201);
+            return response(['appointment' => $appointment->id], 201);
         } catch (InvalidDateException $e) {
             Log::error("[AGENDA-ERROR] {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}");
             return response($e->getMessage(), 400);
@@ -139,7 +139,7 @@ class AppointmentController extends Controller
      *      ),
      *      @OA\Response(response="400", description="Erro de fim semana ou conflito de agenda"),
      *      @OA\Response(response="401", description="Usuário não é dono do agendamento"),
-     *      @OA\Response(response="201", description="Agendamento atualizado")
+     *      @OA\Response(response="204", description="Agendamento atualizado")
      * ),
      */
     public function update(
@@ -151,7 +151,7 @@ class AppointmentController extends Controller
             $dto = UpdateAppointmentDto::fromRequest($request);
             $service->execute($appointment, $dto);
 
-            return response('', 201);
+            return response('', 204);
         } catch (InvalidDateException $e) {
             Log::error("[AGENDA-ERROR] {$e->getFile()}:{$e->getLine()} - {$e->getMessage()}");
             return response($e->getMessage(), 400);

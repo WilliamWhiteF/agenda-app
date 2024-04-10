@@ -23,7 +23,7 @@ class CheckDateService implements ServicesInterface
             ->map(fn ($date) => $date->isWeekend())
             ->filter();
 
-        if (!empty($hasWeekend)) {
+        if (!$hasWeekend->isEmpty()) {
             throw new InvalidDateException('Fins de semana não são permitidos');
         }
 

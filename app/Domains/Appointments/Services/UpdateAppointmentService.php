@@ -23,8 +23,12 @@ class UpdateAppointmentService implements ServicesInterface
         if (!$this->repository->isOwner($appointment)) {
             throw new NotOwnerException("O Agendamento não pertence a você");
         }
-        $this->checkDateService->execute($dto);
 
-        $appointment->update($dto->toArray());
+        $possibleDates = array_filter([$dto->startDate, $dto->endDate, $dto->deadlineDate]);
+        if (!empty($possibleDates)) {
+            $this->checkDateService->execute($dto);
+        }
+
+        $appointment->update(array_filter($dto->toArray()));
     }
 }

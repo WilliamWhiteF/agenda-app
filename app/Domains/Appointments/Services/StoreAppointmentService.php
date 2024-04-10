@@ -20,6 +20,6 @@ class StoreAppointmentService implements ServicesInterface
     {
         $this->checkDateService->execute($dto);
 
-        $this->repository->addAppointment($dto);
+        return $this->repository->addAppointment($dto);
     }
 }

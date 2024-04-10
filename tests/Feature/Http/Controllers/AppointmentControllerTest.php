@@ -11,6 +11,7 @@ use Tests\TestCase;
 class AppointmentControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     private User $user;
     private Appointment $appointment;
     private const QTDE_APPOINTMENTS = 10;
@@ -168,9 +169,69 @@ class AppointmentControllerTest extends TestCase
     public function test_create(): void
     {
         $response = $this->actingAs($this->user)
-            ->deleteJson("/api/appointment/99999999");
+            ->postJson("/api/appointment", [
+                "start_date" => "2024-04-12 15:10:00",
+                "end_date" => "2024-04-12 16:10:00",
+                "deadline_date" => "2024-04-12 16:10:00",
+                "status" => false,
+                "title" => "teste",
+                "type" => "teste",
+                "description" => "teste"
+            ]);
 
-        $response->assertStatus(404);
+        $response->assertStatus(201);
+    }
+
+    /**
+     * test cannot create on weekends
+     */
+    public function test_create_cannot_on_weekends(): void
+    {
+        $response = $this->actingAs($this->user)
+            ->postJson("/api/appointment", [
+                "start_date" => "2024-04-13 15:10:00",
+                "end_date" => "2024-04-13 16:10:00",
+                "deadline_date" => "2024-04-13 16:10:00",
+                "status" => false,
+                "title" => "teste",
+                "type" => "teste",
+                "description" => "teste"
+            ]);
+
+        $response->assertStatus(400);
+    }
+
+    /**
+     * test cannot create on weekends
+     */
+    public function test_create_cannot_on_already_taken_date(): void
+    {
+        $response = $this->actingAs($this->user)
+            ->postJson("/api/appointment", [
+                "start_date" => "2024-04-12 15:10:00",
+                "end_date" => "2024-04-12 16:10:00",
+                "deadline_date" => "2024-04-12 16:10:00",
+                "status" => false,
+                "title" => "teste",
+                "type" => "teste",
+                "description" => "teste"
+            ]);
+
+        $response->assertStatus(201);
+
+        // repeat request to fail
+        $secondResponse = $this->actingAs($this->user)
+            ->postJson("/api/appointment", [
+                "start_date" => "2024-04-12 15:10:00",
+                "end_date" => "2024-04-12 16:10:00",
+                "deadline_date" => "2024-04-12 16:10:00",
+                "status" => false,
+                "title" => "teste",
+                "type" => "teste",
+                "description" => "teste"
+            ]);
+
+        $secondResponse->assertStatus(400);
     }
 
     /**
@@ -178,9 +239,11 @@ class AppointmentControllerTest extends TestCase
      */
     public function test_update(): void
     {
+        $appointmentId = $this->user->appointments()->first()->id;
         $response = $this->actingAs($this->user)
-            ->deleteJson("/api/appointment/99999999");
-        $response->assertStatus(404);
+            ->putJson("/api/appointment/{$appointmentId}");
+
+        $response->assertStatus(204);
     }
 
     /**
@@ -189,7 +252,7 @@ class AppointmentControllerTest extends TestCase
     public function test_update_not_found(): void
     {
         $response = $this->actingAs($this->user)
-            ->deleteJson("/api/appointment/99999999");
+            ->putJson("/api/appointment/99999999");
         $response->assertStatus(404);
     }
 }

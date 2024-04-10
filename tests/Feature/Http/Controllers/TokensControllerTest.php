@@ -11,6 +11,7 @@ use Tests\TestCase;
 class TokensControllerTest extends TestCase
 {
     use RefreshDatabase;
+
     private User $user;
     private const TOKEN_NAME = 'access_token';
     private const DEFAULT_PASSWORD = 'password';

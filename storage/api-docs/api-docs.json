@@ -149,7 +149,7 @@
                     "401": {
                         "description": "Usuário não é dono do agendamento"
                     },
-                    "201": {
+                    "204": {
                         "description": "Agendamento atualizado"
                     }
                 },

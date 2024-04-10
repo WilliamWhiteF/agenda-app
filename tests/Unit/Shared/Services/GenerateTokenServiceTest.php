@@ -17,6 +17,7 @@ use Tests\TestCase;
 class GenerateTokenServiceTest extends TestCase
 {
     use RefreshDatabase;
+
     private User $user;
     private GenerateTokenDto $dto;
     private const DEFAULT_EMAIL = 'generateteste@generateteste.com';

@@ -49,17 +49,17 @@ class UserRepository implements UserRepositoryInterface
         $startDateFormatted = $startDate->format('Y-m-d H:i:s');
         $endDateFormatted = $endDate->format('Y-m-d H:i:s');
 
-        $hasConflictingAgenda = $this->user->appointment()
-            ->whereBetween('start_date', $startDateFormatted, $endDateFormatted)
-            ->orWhereBetween('end_date', $startDateFormatted, $endDateFormatted)
+        $hasConflictingAgenda = $this->user->appointments()
+            ->whereBetween('start_date', [$startDateFormatted, $endDateFormatted])
+            ->orWhereBetween('end_date', [$startDateFormatted, $endDateFormatted])
             ->exists();
 
         return $hasConflictingAgenda;
     }
 
-    public function addAppointment(AppointmentDto $dto): void
+    public function addAppointment(AppointmentDto $dto): Appointment
     {
-        $this->user->appointment()
+        return $this->user->appointments()
             ->create($dto->toArray());
     }
 
